@@ -7,7 +7,7 @@ function Navigation() {
     <div>
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="lg">
         <Navbar.Brand as={Link} to="/">
-          Go To Home
+          Academy App
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -20,7 +20,7 @@ function Navigation() {
             </Nav.Link>
           </Nav>
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} to="/signin">
               Sign In
             </Nav.Link>
           </Nav>
