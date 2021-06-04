@@ -11,10 +11,9 @@ export default class Login extends React.Component {
     };
 
     try {
-      const accessToken = await axios.post(
-        "http://localhost:3000/auth/signin",
-        data
-      );
+      const accessToken = await axios.post("auth/signin", data);
+      console.log(accessToken.data.accessToken);
+      localStorage.setItem("token", accessToken.data.accessToken);
     } catch (error) {
       console.log(error);
     }

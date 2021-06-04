@@ -10,7 +10,10 @@ class StartTest extends React.Component {
   };
 
   getQuestions = async () => {
-    let questions = await axios.get("http://localhost:3000/testing?level=sp3");
+    const token = localStorage.getItem("token");
+    let questions = await axios.get("testing?level=sp3", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     questions = questions.data;
     let level = questions[0].level;
     this.setState({ questions, level });
@@ -18,22 +21,48 @@ class StartTest extends React.Component {
 
   submitAnswers = async (event) => {
     event.preventDefault();
-    // console.log(this.state.answers);
+    // get current date and time
+    const today = new Date();
+    const date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes();
+    const dateTime = date + " " + time;
+
     let answers = this.state.answers;
     let level = this.state.level;
-    let data = { answers, level };
-    await axios.post("http://localhost:3000/testing/submitTest", data);
+    let data = { answers, level, dateTime };
+    await axios.post("testing/submitTest", data);
   };
 
   handleChange = (event, index) => {
     // let { answers } = this.state;
     // answers.push({ [event.target.name]: event.target.value });
     let answers = [...this.state.answers];
-    answers[index] = { [event.target.name]: event.target.value };
+    answers[index] = {
+      question_num: +event.target.name,
+      answer: event.target.value,
+    };
     this.setState({ ...this.state, answers });
   };
 
   componentDidMount() {
+    // const config = {
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("token"),
+    //   },
+    // };
+    // const token = localStorage.getItem("token");
+    // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // axios
+    // .get("auth/user", { headers: { Authorization: `Bearer ${token}` } })
+    // .then(
+    // (res) => console.log(res),
+    // (err) => console.log(err)
+    // );
     this.getQuestions();
   }
 
