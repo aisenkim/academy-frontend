@@ -1,8 +1,22 @@
-import React from "react";
-import { Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
-function Navigation() {
+function Navigation(props) {
+  const history = useHistory();
+
+  /*// instead of handling token and user here, handled in App.js so that Login component 
+  // and Navbar components can both get access
+   const [token, setToken] = useState(localStorage.getItem("token"));
+   const [user, setUser] = useState(localStorage.getItem("name")); */
+
+  const logout = () => {
+    localStorage.clear();
+    props.setAppToken(null);
+    props.setAppUser(null);
+    history.push("/");
+  };
+  const roles = localStorage.getItem("roles");
   return (
     <div>
       <Navbar collapseOnSelect bg="dark" variant="dark" expand="lg">
@@ -18,11 +32,24 @@ function Navigation() {
             <Nav.Link as={Link} to="/startTest">
               Test
             </Nav.Link>
+            {roles === "admin" ? (
+              <Nav.Link as={Link} to="/createPlan">
+                Create Plan
+              </Nav.Link>
+            ) : null}
           </Nav>
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/signin">
-              Sign In
-            </Nav.Link>
+            {!props.appUser ? (
+              <Nav.Link as={Link} to="/signin">
+                Login
+              </Nav.Link>
+            ) : (
+              <Nav>
+                <NavDropdown title={props.appUser}>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

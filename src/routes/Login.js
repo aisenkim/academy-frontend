@@ -1,45 +1,69 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-export default class Login extends React.Component {
-  onSubmit = async (event) => {
+function Login(props) {
+  const history = useHistory();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const usernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const passwordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     const data = {
-      username: this.username,
-      password: this.password,
+      username,
+      password,
     };
 
     try {
       const accessToken = await axios.post("auth/signin", data);
-      console.log(accessToken.data.accessToken);
       localStorage.setItem("token", accessToken.data.accessToken);
+      localStorage.setItem("name", accessToken.data.name);
+      localStorage.setItem("roles", accessToken.data.roles);
+      localStorage.setItem("level", accessToken.data.level);
+      // to change navbar from login -> username (handled in App.js)
+      props.setAppUser(accessToken.data.name);
+      history.push("/");
     } catch (error) {
-      console.log(error);
+      // failed login
+      setErrorMessage("Login failed. Please check your id or password");
     }
   };
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit}>
-          <input
-            name="username"
-            type="text"
-            placeholder="username"
-            required
-            onChange={(e) => (this.username = e.target.value)}
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="password"
-            required
-            onChange={(e) => (this.password = e.target.value)}
-          />
-          <input type="submit" value="Log In" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          name="username"
+          type="text"
+          placeholder="username"
+          value={username}
+          required
+          onChange={usernameChange}
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="password"
+          value={password}
+          required
+          onChange={passwordChange}
+        />
+        <input type="submit" value="Log In" />
+      </form>
+      <div style={{ fontSize: 20, color: "red" }}>{errorMessage}</div>
+    </div>
+  );
 }
+
+export default Login;
