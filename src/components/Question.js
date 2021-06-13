@@ -12,13 +12,17 @@ class Question extends React.Component {
         <Form.Label column sm={2}>
           {this.props.question_num}. {this.props.question}
         </Form.Label>
-        <Col sm={10}>
+        <Col sm={5}>
           <Form.Control
             type="text"
-            placeholder="answer"
+            placeholder="answer -> 모르면 x 적기"
             onChange={this.handleChange}
             name={this.props.question_num}
+            required
           />
+        </Col>
+        <Col sm={2}>
+          {this.props.isCorrect ? <h1>{this.props.isCorrect}</h1> : null}
         </Col>
       </Form.Group>
     );

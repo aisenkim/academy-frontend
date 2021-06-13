@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Question from "../components/Question";
-import { Form } from "react-bootstrap";
+import { Form, Container, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 function StartTest() {
@@ -15,6 +15,9 @@ function StartTest() {
   const [questionNum, setQuestionNum] = useState([]); // Question number for each
   const [isMeaning, setIsMeaning] = useState([]); // isMeaning ? true : false
   const [questionType, setQuestionType] = useState("mix");
+
+  // shows submit button at first and when submitted, hide submit button and show home page button
+  const [showSubmitButton, setShowSubmitButton] = useState(true);
 
   // Get value from local storage
   const userLevel = localStorage.getItem("level");
@@ -46,33 +49,6 @@ function StartTest() {
       });
 
     async function getQuestions(from, to) {
-      // try {
-      //   let questions = await axios.get(
-      //     `testing?level=${userLevel}&from=${from}&to=${to}`,
-      //     {
-      //       headers: { Authorization: `Bearer ${token}` },
-      //     }
-      //   );
-      //   questions = questions.data;
-      //   setQuestions(questions);
-      //   let qTypeArray = [];
-      //   for (let i = 0; i < questions.length; i++) {
-      //     console.log(i);
-      //     setQuestionNum(...i);
-      //     if (questionType === "mix") {
-      //       qTypeArray[i] = Math.round(Math.random());
-      //     } else if (questionType === "word") {
-      //       qTypeArray[i] = 0;
-      //     } else if (questionType === "meaning") {
-      //       qTypeArray[i] = 1;
-      //     }
-      //   }
-      //   setIsMeaning(qTypeArray);
-      //   console.log(isMeaning);
-      // } catch (error) {
-      //   console.log(error);
-      // }
-
       axios
         .get(`testing?level=${userLevel}&from=${from}&to=${to}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -144,6 +120,8 @@ function StartTest() {
       headers: { Authorization: `Bearer ${token}` },
     });
 
+    setShowSubmitButton(false);
+
     // TODO - show if questions are correct or not
     // TODO - hide submit button and show button that redirects to homepage
   };
@@ -159,9 +137,10 @@ function StartTest() {
       let correctAnswer = answers[i];
       let myAnswer = myAnswers[i];
 
-      tmpIsCorrect[i] = correctAnswer === myAnswer;
+      tmpIsCorrect[i] = correctAnswer === myAnswer ? "correct" : "wrong";
     }
     setIsCorrect(tmpIsCorrect);
+    // https://en.wikipedia.org/wiki/Levenshtein_distance
   };
 
   const handleChange = (event, index) => {
@@ -174,23 +153,45 @@ function StartTest() {
     localAnswers[index] = event.target.value;
     setMyAnswers(localAnswers);
   };
+
+  // const goHome = (event) => {
+
+  // }
+
   return (
-    <form onSubmit={submitAnswers}>
-      <Form.Group>
-        <h1>{answers}</h1>
-        {questions.map((question, i) => (
-          <Question
-            key={question.id}
-            question_num={question.question_num}
-            question={question.question}
-            answer={question.answer}
-            onChange={handleChange}
-            index={i}
-          />
-        ))}
-      </Form.Group>
-      <input type="submit" value="Submit" />
-    </form>
+    <Container>
+      <form onSubmit={submitAnswers}>
+        <Form.Group>
+          <h1>Today's Test</h1>
+          {questions.map((question, i) => (
+            <Question
+              key={question.id}
+              question_num={question.question_num}
+              question={isMeaning[i] ? question.answer : question.question}
+              onChange={handleChange}
+              isCorrect={isCorrect[i]}
+              index={i}
+            />
+          ))}
+        </Form.Group>
+        {showSubmitButton ? (
+          <Button type="submit" color="primary" size="lg">
+            Submit
+          </Button>
+        ) : null}
+      </form>
+
+      {showSubmitButton ? null : (
+        <Button
+          onClick={(event) => history.push("/")}
+          size="lg"
+          color="success"
+          variant="success"
+        >
+          Home Page
+        </Button>
+      )}
+    </Container>
   );
 }
 
