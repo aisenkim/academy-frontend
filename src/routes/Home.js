@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Container, Jumbotron } from "react-bootstrap";
 
 function Home(props) {
   // const [from, setFrom] = useState("");
@@ -47,11 +48,13 @@ function Home(props) {
   //   });
 
   return (
-    <div>
-      <h1>Welcome to the Home Page {props.appUser}!</h1>
-      <h3>오늘 할일</h3>
-      {props.appUser && userLevel === "sp3" ? <h1>Test exist</h1> : null}
-    </div>
+    <Container style={{ display: "flex" }}>
+      <Jumbotron fluid>
+        <h1>Welcome to the Home Page {props.appUser}!</h1>
+        <h3>오늘 할일</h3>
+        {props.appUser && userLevel === "sp3" ? <h1>Test exist</h1> : null}
+      </Jumbotron>
+    </Container>
   );
 }
 

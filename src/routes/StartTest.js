@@ -14,7 +14,7 @@ function StartTest() {
   const [isCorrect, setIsCorrect] = useState([]); // isCorrect ? true : false
   const [questionNum, setQuestionNum] = useState([]); // Question number for each
   const [isMeaning, setIsMeaning] = useState([]); // isMeaning ? true : false
-  const [questionType, setQuestionType] = useState("mix");
+  const [originalQuestion, setOriginalQuestion] = useState([]);
 
   // shows submit button at first and when submitted, hide submit button and show home page button
   const [showSubmitButton, setShowSubmitButton] = useState(true);
@@ -23,78 +23,101 @@ function StartTest() {
   const userLevel = localStorage.getItem("level");
   const token = localStorage.getItem("token");
 
-  // GET today's date
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, "0");
-  const mm = String(today.getMonth() + 1).padStart(2, "0");
-  const yyyy = today.getFullYear();
-  const testDate = yyyy + "-" + mm + "-" + dd;
+  // // GET today's date
+  // const today = new Date();
+  // const dd = String(today.getDate()).padStart(2, "0");
+  // const mm = String(today.getMonth() + 1).padStart(2, "0");
+  // const yyyy = today.getFullYear();
+  // const testDate = yyyy + "-" + mm + "-" + dd;
 
   useEffect(() => {
+    // axios
+    //   .get(`testing/getPlan?level=${userLevel}&testDate=${testDate}`, {
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   })
+    //   .then((plan) => {
+    //     const planData = plan.data[0];
+    //     return planData;
+    //   })
+    //   .then((planData) => {
+    //     const { from, to, questionType } = planData;
+    //     setQuestionType(questionType);
+    //     getQuestions(from, to);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
     axios
-      .get(`testing/getPlan?level=${userLevel}&testDate=${testDate}`, {
+      .get(`testing/getTodayQuestions`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((plan) => {
-        const planData = plan.data[0];
-        return planData;
-      })
-      .then((planData) => {
-        const { from, to, questionType } = planData;
-        setQuestionType(questionType);
-        getQuestions(from, to);
-      })
-      .catch((err) => {
-        console.log(err);
+      .then((result) => {
+        setOriginalQuestion(result.data);
+        let localQuestions = [];
+        let localAnswers = [];
+        let localQuestionNum = [];
+        let localIsMeanig = [];
+
+        for (let [i, question] of result.data.entries()) {
+          localQuestions[i] = question.question;
+          localAnswers[i] = question.answer;
+          localQuestionNum[i] = question.question_num;
+          localIsMeanig[i] = question.isMeaning;
+        }
+        setQuestions(localQuestions);
+        setAnswers(localAnswers);
+        setQuestionNum(localQuestionNum);
+        setIsMeaning(localIsMeanig);
       });
 
-    async function getQuestions(from, to) {
-      axios
-        .get(`testing?level=${userLevel}&from=${from}&to=${to}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((result) => {
-          setQuestions(result.data);
-          let tmpQuestionNum = [];
-          let tmpQuestionType = [];
-          let tmpAnswers = [];
+    // async function getQuestions(from, to) {
+    //   axios
+    //     .get(`testing?level=${userLevel}&from=${from}&to=${to}`, {
+    //       headers: { Authorization: `Bearer ${token}` },
+    //     })
+    //     .then((result) => {
+    //       setQuestions(result.data);
+    //       let tmpQuestionNum = [];
+    //       let tmpQuestionType = [];
+    //       let tmpAnswers = [];
 
-          for (let [index, question] of result.data.entries()) {
-            tmpQuestionNum[index] = question.question_num;
-            if (questionType === "word") {
-              tmpQuestionType[index] = 0;
-              tmpAnswers[index] = question.answer; // answer must be meaning
-            } else if (questionType === "meaning") {
-              tmpQuestionType[index] = 1;
-              tmpAnswers[index] = question.question; // answer must be meaning
-            } else {
-              const randomNum = Math.round(Math.random());
-              tmpQuestionType[index] = randomNum;
-              randomNum == 0
-                ? (tmpAnswers[index] = question.answer)
-                : (tmpAnswers[index] = question.question);
-            }
-          }
+    //       for (let [index, question] of result.data.entries()) {
+    //         tmpQuestionNum[index] = question.question_num;
+    //         if (questionType === "word") {
+    //           tmpQuestionType[index] = 0;
+    //           tmpAnswers[index] = question.answer; // answer must be meaning
+    //         } else if (questionType === "meaning") {
+    //           tmpQuestionType[index] = 1;
+    //           tmpAnswers[index] = question.question; // answer must be meaning
+    //         } else {
+    //           const randomNum = Math.round(Math.random());
+    //           tmpQuestionType[index] = randomNum;
+    //           randomNum == 0
+    //             ? (tmpAnswers[index] = question.answer)
+    //             : (tmpAnswers[index] = question.question);
+    //         }
+    //       }
 
-          setQuestionNum(tmpQuestionNum);
-          setIsMeaning(tmpQuestionType);
-          setAnswers(tmpAnswers);
-        });
-    }
+    //       setQuestionNum(tmpQuestionNum);
+    //       setIsMeaning(tmpQuestionType);
+    //       setAnswers(tmpAnswers);
+    //     });
+    // }
   }, []);
 
   const submitAnswers = async (event) => {
     event.preventDefault();
     // get current date and time
-    const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes();
-    const dateTime = date + " " + time;
+    // const today = new Date();
+    // const date =
+    //   today.getFullYear() +
+    //   "-" +
+    //   (today.getMonth() + 1) +
+    //   "-" +
+    //   today.getDate();
+    // const time = today.getHours() + ":" + today.getMinutes();
+    // const dateTime = date + " " + time;
 
     checkAnswers();
 
@@ -107,12 +130,10 @@ function StartTest() {
 
     let data = {
       question_num: questionNum,
+      questions,
       range: range,
-      date: dateTime,
-      level: userLevel,
       answer: answers,
       myAnswers,
-      isCorrect,
       isMeaning,
     };
     // let data = { answers: myAnswers, level: userLevel, dateTime };
@@ -154,20 +175,16 @@ function StartTest() {
     setMyAnswers(localAnswers);
   };
 
-  // const goHome = (event) => {
-
-  // }
-
   return (
     <Container>
       <form onSubmit={submitAnswers}>
         <Form.Group>
           <h1>Today's Test</h1>
-          {questions.map((question, i) => (
+          {originalQuestion.map((question, i) => (
             <Question
               key={question.id}
               question_num={question.question_num}
-              question={isMeaning[i] ? question.answer : question.question}
+              question={question.question}
               onChange={handleChange}
               isCorrect={isCorrect[i]}
               index={i}
