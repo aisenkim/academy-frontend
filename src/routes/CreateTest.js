@@ -18,15 +18,16 @@ function CreateTest() {
 
   const onSubmit = (data) => {
     const reader = new FileReader()
+    const level = data.level;
+    const type = data.type;
     reader.onload = async (evt) => {
       const bstr = evt.target.result
       const wb = xlsx.read(bstr, { type: 'binary' })
       const wsname = wb.SheetNames[0]
       const ws = wb.Sheets[wsname]
       const data = xlsx.utils.sheet_to_json(ws, { header: 1 })
-      console.log(data)
-      // console.log(convertToJson(data))
-      await axios.post('testing', data, {
+
+      await axios.post('testing', {data, level, type}, {
         headers: { Authorization: `Bearer ${token}` },
       })
     }
@@ -39,6 +40,12 @@ function CreateTest() {
     <Container className="mt-4">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group controlId="formFile" className="mb-3">
+          <select {...register('type', {required:true})}>
+            <option>Select Level</option>
+            <option value="word">Word Questions</option>
+            <option value="sentence">Sentence Questions</option>
+          </select>
+          <Form.Control type="text" {...register('level', {required: true})} placeholder="Enter Level" />
           <Form.Control
             {...register('exam', { required: true })}
             type="file"
