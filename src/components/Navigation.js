@@ -12,29 +12,43 @@ function Navigation(props) {
 
   const logout = () => {
     localStorage.clear();
-    props.setAppToken(null);
-    props.setAppUser(null);
+    props.setAppToken("");
+    props.setAppUser("");
     history.push("/");
   };
   const roles = localStorage.getItem("roles");
   return (
     <div>
-      <Navbar collapseOnSelect bg="dark" variant="dark" expand="lg">
+      <Navbar collapseOnSelect expand="lg" variant="light" style={{backgroundColor : "#848484"}}>
         <Navbar.Brand as={Link} to="/">
-          Academy App
+        <img
+          alt=""
+          src="/eie_logo.png"
+          // width="30"
+          // height="30"
+          className="d-inline-block align-top"
+        />{' '}
+          {/* Academy App */}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">
+            {/* <Nav.Link as={Link} to="/">
               Home
-            </Nav.Link>
-            <Nav.Link as={Link} to="/startTest">
+            </Nav.Link> */}
+            {roles === "user" || roles === "admin" ? 
+            (<Nav.Link as={Link} to="/startTest">
               Test
-            </Nav.Link>
-            {roles === "admin" ? (
+            </Nav.Link>) : null
+            }
+            {roles === "admin" && props.appUser !== "" ? (
               <Nav.Link as={Link} to="/createPlan">
                 Create Plan
+              </Nav.Link>
+            ) : null}
+            {roles === "admin" && props.appUser !== "" ? (
+              <Nav.Link as={Link} to="/getUserScore">
+                Find User Score
               </Nav.Link>
             ) : null}
           </Nav>

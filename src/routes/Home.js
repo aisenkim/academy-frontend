@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Jumbotron } from "react-bootstrap";
+import { Container, Jumbotron, Row, Col } from "react-bootstrap";
+import isAuthenticated from "../functions/authService";
 
 function Home(props) {
   // const [from, setFrom] = useState("");
@@ -24,12 +25,17 @@ function Home(props) {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         // extract "from" and "to" from plan
+        console.log(plan)
         const planData = plan.data[0];
         const { from, to } = planData;
         // setFrom(from);
         // setTo(to);
         // make request to get test data
       } catch (error) {
+        if (!isAuthenticated()) {
+          props.setAppToken("");
+          props.setAppUser("");
+        }
         console.log(error);
       }
     }
@@ -48,12 +54,22 @@ function Home(props) {
   //   });
 
   return (
-    <Container style={{ display: "flex" }}>
-      <Jumbotron fluid>
-        <h1>Welcome to the Home Page {props.appUser}!</h1>
+    <Container className="mt-4" fluid>
+      <Row>
+        <Col md={{ span: 3, offset: 4 }}>
+        <h1>Welcome {props.appUser}!</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 2, offset: 4 }}>
         <h3>오늘 할일</h3>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 2, offset: 4 }}>
         {props.appUser && userLevel === "sp3" ? <h1>Test exist</h1> : null}
-      </Jumbotron>
+        </Col>
+    </Row>
     </Container>
   );
 }

@@ -5,6 +5,10 @@ import Home from "./routes/Home";
 import Navigation from "./components/Navigation";
 import Login from "./routes/Login";
 import Plan from "./routes/Plan";
+import UserScore from "./routes/UserScore";
+import ProtectedRoute from "./functions/ProtectedRoute";
+import UserScorePerson from "./routes/UserScorePerson";
+import UserTestQuestion from "./routes/UserTestQuestion";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -23,9 +27,35 @@ function App() {
         <Route exact path="/signin">
           <Login setAppUser={setUser} />
         </Route>
-        <Route exact path="/createPlan" component={Plan} />
+        <ProtectedRoute
+          exact
+          path="/createPlan"
+          component={Plan}
+          setAppToken={setToken}
+          setAppUser={setUser}
+          appUser={user}
+        />
+        <ProtectedRoute
+          exact
+          path="/getUserScore/person"
+          component={UserScorePerson}
+        />
+        <ProtectedRoute
+          exact
+          path="/getUserScore/person/questions"
+          component={UserTestQuestion}
+        />
+        <ProtectedRoute
+          exact
+          path="/getUserScore"
+          component={UserScore}
+          setAppToken={setToken}
+          setAppUser={setUser}
+          appUser={user}
+        />
+        {/* <Route exact path="/createPlan" component={Plan} /> */}
         <Route path="/" exact={true}>
-          <Home appUser={user} />
+          <Home appUser={user} setAppToken={setToken} setAppUser={setUser} />
         </Route>
       </Switch>
     </BrowserRouter>

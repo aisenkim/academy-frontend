@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 function Login(props) {
@@ -8,6 +8,10 @@ function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // useEffect(() => {
+  //   props.setAppToken("");
+  // }, []);
 
   const usernameChange = (event) => {
     setUsername(event.target.value);

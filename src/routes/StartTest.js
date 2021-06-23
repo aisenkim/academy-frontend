@@ -31,28 +31,17 @@ function StartTest() {
   // const testDate = yyyy + "-" + mm + "-" + dd;
 
   useEffect(() => {
-    // axios
-    //   .get(`testing/getPlan?level=${userLevel}&testDate=${testDate}`, {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   })
-    //   .then((plan) => {
-    //     const planData = plan.data[0];
-    //     return planData;
-    //   })
-    //   .then((planData) => {
-    //     const { from, to, questionType } = planData;
-    //     setQuestionType(questionType);
-    //     getQuestions(from, to);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
+    // request to get today's question 
     axios
       .get(`testing/getTodayQuestions`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((result) => {
+        // check if test exists
+        if (result.data.length === 0) {
+          setShowSubmitButton(false);
+          return;
+        }
         setOriginalQuestion(result.data);
         let localQuestions = [];
         let localAnswers = [];
@@ -71,39 +60,6 @@ function StartTest() {
         setIsMeaning(localIsMeanig);
       });
 
-    // async function getQuestions(from, to) {
-    //   axios
-    //     .get(`testing?level=${userLevel}&from=${from}&to=${to}`, {
-    //       headers: { Authorization: `Bearer ${token}` },
-    //     })
-    //     .then((result) => {
-    //       setQuestions(result.data);
-    //       let tmpQuestionNum = [];
-    //       let tmpQuestionType = [];
-    //       let tmpAnswers = [];
-
-    //       for (let [index, question] of result.data.entries()) {
-    //         tmpQuestionNum[index] = question.question_num;
-    //         if (questionType === "word") {
-    //           tmpQuestionType[index] = 0;
-    //           tmpAnswers[index] = question.answer; // answer must be meaning
-    //         } else if (questionType === "meaning") {
-    //           tmpQuestionType[index] = 1;
-    //           tmpAnswers[index] = question.question; // answer must be meaning
-    //         } else {
-    //           const randomNum = Math.round(Math.random());
-    //           tmpQuestionType[index] = randomNum;
-    //           randomNum == 0
-    //             ? (tmpAnswers[index] = question.answer)
-    //             : (tmpAnswers[index] = question.question);
-    //         }
-    //       }
-
-    //       setQuestionNum(tmpQuestionNum);
-    //       setIsMeaning(tmpQuestionType);
-    //       setAnswers(tmpAnswers);
-    //     });
-    // }
   }, []);
 
   const submitAnswers = async (event) => {
@@ -195,19 +151,15 @@ function StartTest() {
           <Button type="submit" color="primary" size="lg">
             Submit
           </Button>
-        ) : null}
+        ) :  (<Button
+        onClick={(event) => history.push("/")}
+        size="lg"
+        color="success"
+        variant="success"
+      >
+        Home Page
+      </Button>)}
       </form>
-
-      {showSubmitButton ? null : (
-        <Button
-          onClick={(event) => history.push("/")}
-          size="lg"
-          color="success"
-          variant="success"
-        >
-          Home Page
-        </Button>
-      )}
     </Container>
   );
 }
