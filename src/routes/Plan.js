@@ -1,10 +1,10 @@
-import axios from "axios";
-import React from "react";
-import { Form, Button } from "react-bootstrap";
+import axios from 'axios'
+import React from 'react'
+import { Form, Button } from 'react-bootstrap'
 
 export default class Plan extends React.Component {
   onSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const data = {
       level: this.level,
@@ -12,17 +12,17 @@ export default class Plan extends React.Component {
       from: this.from,
       to: this.to,
       questionType: this.questionType,
-    };
+    }
 
     try {
-      const token = localStorage.getItem("token");
-      await axios.post("admin/createPlan", data, {
+      const token = localStorage.getItem('token')
+      await axios.post('admin/createPlan', data, {
         headers: { Authorization: `Bearer ${token}` },
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   render() {
     return (
@@ -103,6 +103,6 @@ export default class Plan extends React.Component {
       //     <input type="submit" value="Submit" />
       //   </form>
       // </div>
-    );
+    )
   }
 }

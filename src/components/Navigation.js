@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from 'react'
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Link, useHistory } from 'react-router-dom'
 
 function Navigation(props) {
-  const history = useHistory();
+  const history = useHistory()
 
   /*// instead of handling token and user here, handled in App.js so that Login component 
   // and Navbar components can both get access
@@ -11,23 +11,28 @@ function Navigation(props) {
    const [user, setUser] = useState(localStorage.getItem("name")); */
 
   const logout = () => {
-    localStorage.clear();
-    props.setAppToken("");
-    props.setAppUser("");
-    history.push("/");
-  };
-  const roles = localStorage.getItem("roles");
+    localStorage.clear()
+    props.setAppToken('')
+    props.setAppUser('')
+    history.push('/')
+  }
+  const roles = localStorage.getItem('roles')
   return (
     <div>
-      <Navbar collapseOnSelect expand="lg" variant="light" style={{backgroundColor : "#848484"}}>
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        variant="light"
+        style={{ backgroundColor: '#848484' }}
+      >
         <Navbar.Brand as={Link} to="/">
-        <img
-          alt=""
-          src="/eie_logo.png"
-          // width="30"
-          // height="30"
-          className="d-inline-block align-top"
-        />{' '}
+          <img
+            alt=""
+            src="/eie_logo.png"
+            // width="30"
+            // height="30"
+            className="d-inline-block align-top"
+          />{' '}
           {/* Academy App */}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -36,17 +41,22 @@ function Navigation(props) {
             {/* <Nav.Link as={Link} to="/">
               Home
             </Nav.Link> */}
-            {roles === "user" || roles === "admin" ? 
-            (<Nav.Link as={Link} to="/startTest">
-              Test
-            </Nav.Link>) : null
-            }
-            {roles === "admin" && props.appUser !== "" ? (
+            {roles === 'user' || roles === 'admin' ? (
+              <Nav.Link as={Link} to="/startTest">
+                Test
+              </Nav.Link>
+            ) : null}
+            {roles === 'admin' && props.appUser !== '' ? (
               <Nav.Link as={Link} to="/createPlan">
                 Create Plan
               </Nav.Link>
             ) : null}
-            {roles === "admin" && props.appUser !== "" ? (
+            {roles === 'user' || roles === 'admin' ? (
+              <Nav.Link as={Link} to="/createTest">
+                Create Test
+              </Nav.Link>
+            ) : null}
+            {roles === 'admin' && props.appUser !== '' ? (
               <Nav.Link as={Link} to="/getUserScore">
                 Find User Score
               </Nav.Link>
@@ -68,7 +78,7 @@ function Navigation(props) {
         </Navbar.Collapse>
       </Navbar>
     </div>
-  );
+  )
 }
 
-export default Navigation;
+export default Navigation
