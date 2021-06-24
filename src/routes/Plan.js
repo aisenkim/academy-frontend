@@ -1,108 +1,100 @@
 import axios from 'axios'
-import React from 'react'
-import { Form, Button } from 'react-bootstrap'
+import React, {useState} from 'react'
+import {Form, Button} from 'react-bootstrap'
+import {useHistory} from "react-router-dom";
 
-export default class Plan extends React.Component {
-  onSubmit = async (event) => {
-    event.preventDefault()
+function Plan() {
 
-    const data = {
-      level: this.level,
-      testDate: this.date,
-      from: this.from,
-      to: this.to,
-      questionType: this.questionType,
+    const history = useHistory();
+
+    const [testType, setTestType] = useState("");
+    const [level, setLevel] = useState("");
+    const [testDate, setTestDate] = useState("");
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+    const [questionType, setQuestionType] = useState("");
+
+    const onSubmit = async (event) => {
+        event.preventDefault()
+
+        // const data = {
+        //     testType: this.testType,
+        //     level: this.level,
+        //     testDate: this.date,
+        //     from: this.from,
+        //     to: this.to,
+        //     questionType: this.questionType,
+        // }
+        const data = {testType, level, testDate, from, to, questionType}
+
+        try {
+            const token = localStorage.getItem('token')
+            await axios.post('admin/createPlan', data, {
+                headers: {Authorization: `Bearer ${token}`},
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-    try {
-      const token = localStorage.getItem('token')
-      await axios.post('admin/createPlan', data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  render() {
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Form.Group controlId="level">
-          <Form.Label>Level</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Level"
-            onChange={(e) => (this.level = e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="testDate">
-          <Form.Label>Test Date</Form.Label>
-          <Form.Control
-            type="date"
-            onChange={(e) => (this.date = e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="from">
-          <Form.Label>From</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="From: "
-            onChange={(e) => (this.from = e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="to">
-          <Form.Label>From</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="To: "
-            onChange={(e) => (this.to = e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="questionType">
-          <Form.Label>Question Type</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="mixed | word | meaning "
-            onChange={(e) => (this.questionType = e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-      // <div>
-      //   <form onSubmit={this.onSubmit}>
-      //     <input
-      //       name="level"
-      //       type="text"
-      //       placeholder="level"
-      //       required
-      //       onChange={(e) => (this.level = e.target.value)}
-      //     />
-      //     <input
-      //       name="testDate"
-      //       type="date"
-      //       required
-      //       onChange={(e) => (this.date = e.target.value)}
-      //     />
-      //     <input
-      //       name="from"
-      //       type="text"
-      //       placeholder="from"
-      //       required
-      //       onChange={(e) => (this.from = e.target.value)}
-      //     />
-      //     <input
-      //       name="to"
-      //       type="text"
-      //       placeholder="to"
-      //       required
-      //       onChange={(e) => (this.to = e.target.value)}
-      //     />
-
-      //     <input type="submit" value="Submit" />
-      //   </form>
-      // </div>
+        <Form onSubmit={onSubmit}>
+            <Form.Group controlId="level">
+                <Form.Label>Test Type</Form.Label>
+                <br/>
+                <select
+                    onChange={(e) => (setTestType(e.target.value))}
+                    required
+                >
+                    <option>Select Test Type...</option>
+                    <option value="word">Word Questions</option>
+                    <option value="sentence">Sentence Questions</option>
+                </select>
+            </Form.Group>
+            <Form.Group controlId="level">
+                <Form.Label>Level</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Level"
+                    onChange={(e) => (setLevel(e.target.value))}
+                />
+            </Form.Group>
+            <Form.Group controlId="testDate">
+                <Form.Label>Test Date</Form.Label>
+                <Form.Control
+                    type="date"
+                    onChange={(e) => (setTestDate(e.target.value))}
+                />
+            </Form.Group>
+            <Form.Group controlId="from">
+                <Form.Label>From</Form.Label>
+                <Form.Control
+                    type="number"
+                    placeholder="From: "
+                    onChange={(e) => (setFrom(e.target.value))}
+                />
+            </Form.Group>
+            <Form.Group controlId="to">
+                <Form.Label>To</Form.Label>
+                <Form.Control
+                    type="number"
+                    placeholder="To: "
+                    onChange={(e) => (setTo(e.target.value))}
+                />
+            </Form.Group>
+            <Form.Group controlId="questionType">
+                <Form.Label>Question Type</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="mixed | word | meaning "
+                    onChange={(e) => (setQuestionType(e.target.value))}
+                />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
+        </Form>
     )
-  }
 }
+
+export default Plan
