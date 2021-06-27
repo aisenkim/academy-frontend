@@ -15,16 +15,17 @@ function UserTestQuestion(props) {
     const level = range[0];
     const from = range[1];
     const to = range[2];
+    const testType = range[3];
     const token = localStorage.getItem("token");
 
-    examQuestions.reverse(); // question in opposite order
+    //examQuestions.reverse(); // question in opposite order
 
     axios
-      .get(`testing?level=${level}&from=${from}&to=${to}`, {
+      .get(`testing?level=${level}&from=${from}&to=${to}&testType=${testType}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((result) => {
-        setQuestionAnswer(result.data);
+        setQuestionAnswer(result.data.reverse());
       });
   }, []);
 
