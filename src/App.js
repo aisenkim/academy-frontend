@@ -54,7 +54,7 @@ function App() {
           setAppUser={setUser}
           appUser={user}
         />
-        <ProtectedRoute
+        <Route
           exact
           path="/createTest"
           component={CreateTest}
