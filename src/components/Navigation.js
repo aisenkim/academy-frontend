@@ -17,6 +17,7 @@ function Navigation(props) {
     history.push('/')
   }
   const roles = localStorage.getItem('roles')
+  console.log(roles)
   return (
     <div>
       <Navbar

@@ -17,30 +17,30 @@ function Home(props) {
   const yyyy = today.getFullYear()
   const testDate = yyyy + '-' + mm + '-' + dd
 
-  useEffect(() => {
-    async function getPlan() {
-      try {
-        const plan = await axios.get(
-          `plan/getPlan?level=${userLevel}&testDate=${testDate}`,
-          { headers: { Authorization: `Bearer ${token}` } },
-        )
-        // extract "from" and "to" from plan
-        console.log(plan)
-        const planData = plan.data[0]
-        const { from, to } = planData
-        // setFrom(from);
-        // setTo(to);
-        // make request to get test data
-      } catch (error) {
-        if (!isAuthenticated()) {
-          props.setAppToken('')
-          props.setAppUser('')
-        }
-        console.log(error)
-      }
-    }
-    getPlan()
-  }, [])
+  // useEffect(() => {
+  //   async function getPlan() {
+  //     try {
+  //       const plan = await axios.get(
+  //         `plan/getPlan?level=${userLevel}&testDate=${testDate}`,
+  //         { headers: { Authorization: `Bearer ${token}` } },
+  //       )
+  //       // extract "from" and "to" from plan
+  //       console.log(plan)
+  //       const planData = plan.data[0]
+  //       const { from, to } = planData
+  //       // setFrom(from);
+  //       // setTo(to);
+  //       // make request to get test data
+  //     } catch (error) {
+  //       if (!isAuthenticated()) {
+  //         props.setAppToken('')
+  //         props.setAppUser('')
+  //       }
+  //       console.log(error)
+  //     }
+  //   }
+  //   getPlan()
+  // }, [])
 
   // axios
   //   .get(`testing/getPlan?level=${userLevel}&testDate=${testDate}`, {

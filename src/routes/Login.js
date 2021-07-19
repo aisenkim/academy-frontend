@@ -1,48 +1,49 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 function Login(props) {
-  const history = useHistory();
+  const history = useHistory()
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   // useEffect(() => {
   //   props.setAppToken("");
   // }, []);
 
   const usernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+    setUsername(event.target.value)
+  }
 
   const passwordChange = (event) => {
-    setPassword(event.target.value);
-  };
+    setPassword(event.target.value)
+  }
 
   const onSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const data = {
       username,
       password,
-    };
+    }
 
     try {
-      const accessToken = await axios.post("auth/signin", data);
-      localStorage.setItem("token", accessToken.data.accessToken);
-      localStorage.setItem("name", accessToken.data.name);
-      localStorage.setItem("roles", accessToken.data.roles);
-      localStorage.setItem("level", accessToken.data.level);
+      const accessToken = await axios.post('auth/signin', data)
+      console.log(accessToken)
+      localStorage.setItem('token', accessToken.data.accessToken)
+      localStorage.setItem('name', accessToken.data.name)
+      localStorage.setItem('roles', accessToken.data.roles)
+      localStorage.setItem('level', accessToken.data.level)
       // to change navbar from login -> username (handled in App.js)
-      props.setAppUser(accessToken.data.name);
-      history.push("/");
+      props.setAppUser(accessToken.data.name)
+      history.push('/')
     } catch (error) {
       // failed login
-      setErrorMessage("Login failed. Please check your id or password");
+      setErrorMessage('Login failed. Please check your id or password')
     }
-  };
+  }
 
   return (
     <div>
@@ -65,9 +66,9 @@ function Login(props) {
         />
         <input type="submit" value="Log In" />
       </form>
-      <div style={{ fontSize: 20, color: "red" }}>{errorMessage}</div>
+      <div style={{ fontSize: 20, color: 'red' }}>{errorMessage}</div>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

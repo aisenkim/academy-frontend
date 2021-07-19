@@ -75,8 +75,8 @@ function StartTest() {
       })
 
     // request to get today's sentence questions
-    /**axios
-      .get(`testing/getTodaySentenceQuestions`, {
+    axios
+      .get(`sentence/todayQuestions?testType=sentence`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((result) => {
@@ -102,7 +102,7 @@ function StartTest() {
         setAnswersSentence(localAnswers)
         setQuestionNumSentence(localQuestionNum)
         setIsMeaningSentence(localIsMeanig)
-      })*/
+      })
   }, [])
 
   const submitVocabAnswers = async (event) => {
