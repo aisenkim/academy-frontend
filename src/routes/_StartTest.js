@@ -1,53 +1,49 @@
-import React from "react";
-import axios from "axios";
-import Question from "../components/Question";
-import { Form } from "react-bootstrap";
+import React from 'react'
+import axios from 'axios'
+import Question from '../components/Question'
+import { Form } from 'react-bootstrap'
 
 class StartTest extends React.Component {
   state = {
     questions: [],
     answers: [],
-  };
+  }
 
   getQuestions = async () => {
-    const token = localStorage.getItem("token");
-    let questions = await axios.get("testing?level=sp3", {
+    const token = localStorage.getItem('token')
+    let questions = await axios.get('testing?level=sp3', {
       headers: { Authorization: `Bearer ${token}` },
-    });
-    questions = questions.data;
-    let level = questions[0].level;
-    this.setState({ questions, level });
-  };
+    })
+    questions = questions.data
+    let level = questions[0].level
+    this.setState({ questions, level })
+  }
 
   submitAnswers = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     // get current date and time
-    const today = new Date();
+    const today = new Date()
     const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes();
-    const dateTime = date + " " + time;
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    const time = today.getHours() + ':' + today.getMinutes()
+    const dateTime = date + ' ' + time
 
-    let answers = this.state.answers;
-    let level = this.state.level;
-    let data = { answers, level, dateTime };
-    await axios.post("testing/submitTest", data);
-  };
+    let answers = this.state.answers
+    let level = this.state.level
+    let data = { answers, level, dateTime }
+    await axios.post('response', data)
+  }
 
   handleChange = (event, index) => {
     // let { answers } = this.state;
     // answers.push({ [event.target.name]: event.target.value });
-    let answers = [...this.state.answers];
+    let answers = [...this.state.answers]
     answers[index] = {
       question_num: +event.target.name,
       answer: event.target.value,
-    };
-    this.setState({ ...this.state, answers });
-  };
+    }
+    this.setState({ ...this.state, answers })
+  }
 
   componentDidMount() {
     // const config = {
@@ -63,11 +59,11 @@ class StartTest extends React.Component {
     // (res) => console.log(res),
     // (err) => console.log(err)
     // );
-    this.getQuestions();
+    this.getQuestions()
   }
 
   render() {
-    const { questions } = this.state;
+    const { questions } = this.state
     return (
       <form onSubmit={this.submitAnswers}>
         <Form.Group>
@@ -84,8 +80,8 @@ class StartTest extends React.Component {
         </Form.Group>
         <input type="submit" value="Submit" />
       </form>
-    );
+    )
   }
 }
 
-export default StartTest;
+export default StartTest
