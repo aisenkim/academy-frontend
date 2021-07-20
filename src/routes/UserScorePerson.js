@@ -13,7 +13,7 @@ function UserScorePerson(props) {
     const token = localStorage.getItem('token')
     axios
       .post(
-        'admin/getUserScore',
+        'exams/user-scores',
         { username: user.username },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -59,7 +59,7 @@ function UserScorePerson(props) {
                     onClick={(event) => {
                       // go to question detail page
                       history.push({
-                        pathname: '/getUserScore/person/questions',
+                        pathname: '/user-scores/person/questions',
                         state: { exam: exam[idx], user: user },
                       })
                     }}

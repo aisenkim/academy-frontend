@@ -1,33 +1,44 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, Card, Row, Col, ListGroup } from "react-bootstrap";
-import { useRef } from "react";
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Container, Card, Row, Col, ListGroup } from 'react-bootstrap'
+import { useRef } from 'react'
 
 function UserTestQuestion(props) {
-  const exam = props.location.state.exam;
-  const user = props.location.state.user;
-  const examQuestions = exam.examQuestion; // array of objects containing student's answers for each question
+  const exam = props.location.state.exam
+  const user = props.location.state.user
+  // array of objects containing student's answers for each question (word || sentence)
+  // setting it depending on the type of test
+  let examQuestions
+  exam.testType === 'word'
+    ? (examQuestions = exam.examQuestion)
+    : (examQuestions = exam.sentenceResponses)
 
-  const [questionAnswer, setQuestionAnswer] = useState([]);
+  const [questionAnswer, setQuestionAnswer] = useState([])
 
   useEffect(() => {
-    const range = exam.range.split("_"); // level_from_to
-    const level = range[0];
-    const from = range[1];
-    const to = range[2];
-    const testType = range[3];
-    const token = localStorage.getItem("token");
+    const range = exam.range.split('_') // level_from_to
+    const level = exam.level
+    const from = range[1]
+    const to = range[2]
+    const testType = exam.testType
+    const token = localStorage.getItem('token')
+    let questionsOrSentence
 
-    //examQuestions.reverse(); // question in opposite order
+    testType === 'word'
+      ? (questionsOrSentence = 'questions')
+      : (questionsOrSentence = 'sentence')
 
     axios
-      .get(`testing?level=${level}&from=${from}&to=${to}&testType=${testType}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(
+        `${questionsOrSentence}?level=${level}&from=${from}&to=${to}&testType=${testType}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      )
       .then((result) => {
-        setQuestionAnswer(result.data.reverse());
-      });
-  }, []);
+        setQuestionAnswer(result.data.reverse())
+      })
+  }, [])
 
   return (
     <Container className="mt-4" fluid>
@@ -50,11 +61,11 @@ function UserTestQuestion(props) {
               return !answer ? null : (
                 <Card key={idx}>
                   {examQuestions[idx].isCorrect ? (
-                    <Card.Header as="h3" style={{ color: "green" }}>
+                    <Card.Header as="h3" style={{ color: 'green' }}>
                       {examQuestions[idx].question_num}
                     </Card.Header>
                   ) : (
-                    <Card.Header as="h3" style={{ color: "red" }}>
+                    <Card.Header as="h3" style={{ color: 'red' }}>
                       {examQuestions[idx].question_num}
                     </Card.Header>
                   )}
@@ -77,13 +88,13 @@ function UserTestQuestion(props) {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-              );
+              )
             })}
           </ListGroup>
         </Col>
       </Row>
     </Container>
-  );
+  )
 }
 
-export default UserTestQuestion;
+export default UserTestQuestion

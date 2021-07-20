@@ -58,7 +58,7 @@ function Navigation(props) {
               </Nav.Link>
             ) : null}
             {roles === 'admin' && props.appUser !== '' ? (
-              <Nav.Link as={Link} to="/getUserScore">
+              <Nav.Link as={Link} to="/user-scores">
                 Find User Score
               </Nav.Link>
             ) : null}

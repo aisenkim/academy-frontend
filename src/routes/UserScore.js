@@ -2,8 +2,8 @@
  * Page to get user score by admin
  */
 
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Container,
   Form,
@@ -11,29 +11,29 @@ import {
   ListGroup,
   Row,
   Col,
-} from "react-bootstrap";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
-import axios from "axios";
+} from 'react-bootstrap'
+import { unstable_renderSubtreeIntoContainer } from 'react-dom'
+import axios from 'axios'
 
 function UserScore() {
-  const history = useHistory();
+  const history = useHistory()
 
   // define states
-  const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchCategory, setSearchCategory] = useState("");
+  const [users, setUsers] = useState([])
+  const [username, setUsername] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchCategory, setSearchCategory] = useState('')
 
   // get data from backend
   useEffect(() => {
     // make post request to /getUserScore
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token')
     axios
-      .get("auth/allUsers", {
+      .get('auth/users', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((result) => {
-        setUsers(result.data);
+        setUsers(result.data)
         // let localUsernames = [];
         // let localNames = [];
         // for (let [i, user] of result.data.entries()) {
@@ -42,14 +42,14 @@ function UserScore() {
         // }
         // setUsers(localNames);
         // setUsername(localUsernames);
-      });
-  }, []);
+      })
+  }, [])
 
-  const handleChange = (event) => {};
+  const handleChange = (event) => {}
 
   const search = async (event) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   // First show a search bar and the whole user list below
   // admin can click on the user name to see the user's exam scores
@@ -60,7 +60,7 @@ function UserScore() {
           <FormControl
             as="select"
             onChange={(event) => {
-              setSearchCategory(event.target.value);
+              setSearchCategory(event.target.value)
             }}
           >
             <option value="studentName">Name</option>
@@ -72,7 +72,7 @@ function UserScore() {
           <FormControl
             placecholder="Search..."
             onChange={(event) => {
-              setSearchTerm(event.target.value);
+              setSearchTerm(event.target.value)
             }}
           />
         </Col>
@@ -82,22 +82,23 @@ function UserScore() {
           <ListGroup className="mt-2">
             {users
               .filter((user) => {
-                if (searchTerm == "") {
-                  return user;
+                if (searchTerm == '') {
+                  return user
                 } else if (
-                  searchCategory === "studentName" &&
+                  searchCategory === 'studentName' &&
                   user.name.toLowerCase().includes(searchTerm.toLowerCase())
                 ) {
-                  return user;
+                  return user
                 } else if (
-                  searchCategory === "userName" &&
+                  searchCategory === 'userName' &&
                   user.username.toLowerCase().includes(searchTerm.toLowerCase())
                 ) {
-                  return user;
-                } else if(
-                  searchCategory === "userLevel" &&
-                  user.level.toLowerCase().includes(searchTerm.toLowerCase()) ) {
-                    return user;
+                  return user
+                } else if (
+                  searchCategory === 'userLevel' &&
+                  user.level.toLowerCase().includes(searchTerm.toLowerCase())
+                ) {
+                  return user
                 }
               })
               .map((user, idx) => {
@@ -106,17 +107,17 @@ function UserScore() {
                     key={idx}
                     as="button"
                     variant="success"
-                    style={{ color: "black" }}
+                    style={{ color: 'black' }}
                     onClick={(event) => {
                       history.push({
-                        pathname: "/getUserScore/person",
+                        pathname: '/user-scores/person',
                         state: { user: user },
-                      });
+                      })
                     }}
                   >
                     {user.name} - {user.username} - {user.level}
                   </ListGroup.Item>
-                );
+                )
               })}
           </ListGroup>
         </Col>
@@ -126,7 +127,7 @@ function UserScore() {
         return <div key={index}>{user}</div>;
       })} */}
     </Container>
-  );
+  )
 }
 
-export default UserScore;
+export default UserScore

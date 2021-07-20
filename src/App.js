@@ -38,17 +38,17 @@ function App() {
         />
         <ProtectedRoute
           exact
-          path="/getUserScore/person"
+          path="/user-scores/person"
           component={UserScorePerson}
         />
         <ProtectedRoute
           exact
-          path="/getUserScore/person/questions"
+          path="/user-scores/person/questions"
           component={UserTestQuestion}
         />
         <ProtectedRoute
           exact
-          path="/getUserScore"
+          path="/user-scores"
           component={UserScore}
           setAppToken={setToken}
           setAppUser={setUser}
