@@ -31,7 +31,8 @@ export const ProtectedRoute = ({
           // this results in error because setting state in the rendering process
           //   return history.push("/signin");
           localStorage.clear();
-          //   setAppToken("");
+            setAppToken("");
+            setAppUser("");
           return <Redirect to="/signin" />;
         }
       }}
