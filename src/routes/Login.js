@@ -31,7 +31,6 @@ function Login(props) {
 
     try {
       const accessToken = await axios.post('auth/signin', data)
-      console.log(accessToken)
       localStorage.setItem('token', accessToken.data.accessToken)
       localStorage.setItem('name', accessToken.data.name)
       localStorage.setItem('roles', accessToken.data.roles)

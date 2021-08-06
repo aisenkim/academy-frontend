@@ -61,6 +61,11 @@ function Navigation(props) {
                 Find User Score
               </Nav.Link>
             ) : null}
+            {roles === 'admin' && props.appUser !== '' ? (
+              <Nav.Link as={Link} to="/users">
+                Create New User
+              </Nav.Link>
+            ) : null}
           </Nav>
           <Nav className="ms-auto">
             {!props.appUser ? (

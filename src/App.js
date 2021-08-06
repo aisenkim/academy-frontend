@@ -11,6 +11,7 @@ import UserScorePerson from './routes/UserScorePerson'
 import UserTestQuestion from './routes/UserTestQuestion'
 import CreateTest from './routes/CreateTest'
 import Retest from "./routes/Retest";
+import CreateUser from "./routes/CreateUser";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'))
@@ -41,15 +42,21 @@ function App() {
           exact
           path="/user-scores/person"
           component={UserScorePerson}
+          setAppToken={setToken}
+          setAppUser={setUser}
         />
         <ProtectedRoute
             path="/retests"
             component={Retest}
+            setAppToken={setToken}
+            setAppUser={setUser}
         />
         <ProtectedRoute
           exact
           path="/user-scores/person/questions"
           component={UserTestQuestion}
+          setAppToken={setToken}
+          setAppUser={setUser}
         />
         <ProtectedRoute
           exact
@@ -58,6 +65,13 @@ function App() {
           setAppToken={setToken}
           setAppUser={setUser}
           appUser={user}
+        />
+        <ProtectedRoute
+          exact
+          path="/users"
+          component={CreateUser}
+          setAppToken={setToken}
+          setAppUser={setUser}
         />
         <Route
           exact
