@@ -28,7 +28,7 @@ function Navigation(props) {
         <Navbar.Brand as={Link} to="/">
           <img
             alt=""
-            src="/eie_logo.png"
+            src="/academy-frontend/eie_logo.png"
             // width="30"
             // height="30"
             className="d-inline-block align-top"
