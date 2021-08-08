@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Container, Card, Row, Col, ListGroup } from 'react-bootstrap'
-import { useRef } from 'react'
 
 function UserTestQuestion(props) {
   const exam = props.location.state.exam
