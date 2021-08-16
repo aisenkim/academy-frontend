@@ -38,7 +38,6 @@ function Home(props) {
 
     return (
         <Container className="mt-4" fluid>
-
             <Row>
                 <Col md={{span: 4, offset: 4}}>
                     <h1>Welcome {props.appUser}!</h1>

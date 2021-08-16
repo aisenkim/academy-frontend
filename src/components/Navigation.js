@@ -56,15 +56,25 @@ function Navigation(props) {
                 Create Test
               </Nav.Link>
             ) : null}
+            {roles === 'user' || roles === 'admin' ? (
+              <Nav.Link as={Link} to="/word-list">
+                Word List
+              </Nav.Link>
+            ) : null}
             {roles === 'admin' && props.appUser !== '' ? (
               <Nav.Link as={Link} to="/user-scores">
                 Find User Score
               </Nav.Link>
             ) : null}
             {roles === 'admin' && props.appUser !== '' ? (
-              <Nav.Link as={Link} to="/users">
+              <Nav.Link as={Link} to="/create-users">
                 Create New User
               </Nav.Link>
+            ) : null}
+            {roles === 'admin' && props.appUser !== '' ? (
+                <Nav.Link as={Link} to="/users">
+                 Users
+                </Nav.Link>
             ) : null}
           </Nav>
           <Nav className="ms-auto">

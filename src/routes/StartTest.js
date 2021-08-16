@@ -168,8 +168,7 @@ function StartTest() {
     /**
      * TODO - Answer Check Algorithm
      * Algorithm for checking if answer is correct
-     * [THINK about handling it in the backend]
-     * NEED TO FIX
+     * Another answer check happens in the backend [in case altered by user]
      */
     const checkVocabAnswers = () => {
         let tmpIsCorrect = []

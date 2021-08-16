@@ -1,73 +1,53 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, {useState} from 'react'
+import {useHistory} from 'react-router-dom'
+import {Button, Container, Form, Image} from "react-bootstrap";
+import {useForm} from "react-hook-form";
 
 function Login(props) {
-  const history = useHistory()
+    const history = useHistory()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+    const {register, handleSubmit} = useForm();
+    const [errorMessage, setErrorMessage] = useState('')
 
-  // useEffect(() => {
-  //   props.setAppToken("");
-  // }, []);
+    const onSubmit = async (data) => {
 
-  const usernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const passwordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
-  const onSubmit = async (event) => {
-    event.preventDefault()
-
-    const data = {
-      username,
-      password,
+        try {
+            const accessToken = await axios.post('auth/signin', data)
+            localStorage.setItem('token', accessToken.data.accessToken)
+            localStorage.setItem('name', accessToken.data.name)
+            localStorage.setItem('roles', accessToken.data.roles)
+            localStorage.setItem('level', accessToken.data.level)
+            // to change navbar from login -> username (handled in App.js)
+            props.setAppUser(accessToken.data.name)
+            history.push('/')
+        } catch (error) {
+            // failed login
+            setErrorMessage('Login failed. Please check your id or password')
+        }
     }
 
-    try {
-      const accessToken = await axios.post('auth/signin', data)
-      localStorage.setItem('token', accessToken.data.accessToken)
-      localStorage.setItem('name', accessToken.data.name)
-      localStorage.setItem('roles', accessToken.data.roles)
-      localStorage.setItem('level', accessToken.data.level)
-      // to change navbar from login -> username (handled in App.js)
-      props.setAppUser(accessToken.data.name)
-      history.push('/')
-    } catch (error) {
-      // failed login
-      setErrorMessage('Login failed. Please check your id or password')
-    }
-  }
-
-  return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          name="username"
-          type="text"
-          placeholder="username"
-          value={username}
-          required
-          onChange={usernameChange}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="password"
-          value={password}
-          required
-          onChange={passwordChange}
-        />
-        <input type="submit" value="Log In" />
-      </form>
-      <div style={{ fontSize: 20, color: 'red' }}>{errorMessage}</div>
-    </div>
-  )
+    return (
+        <Container className="d-flex justify-content-center vh-100 align-items-center">
+            <Form onSubmit={handleSubmit(onSubmit)} >
+                <Form.Group className="d-flex justify-content-center mb-3 row g-2">
+                    <Image src="/academy-frontend/eie_logo.png"/>
+                </Form.Group>
+                <Form.Group className="mb-2 row g-2" >
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" {...register('username', {required: true})} placeholder="username" size="lg"/>
+                </Form.Group >
+                <Form.Group className="mb-3 row g-2">
+                    <Form.Label>password</Form.Label>
+                    <Form.Control type="password" {...register('password', {required: true})} placeholder="password" size="lg"/>
+                </Form.Group>
+                <Form.Group className="d-flex justify-content-center mb-3 row g-2">
+                    <Button variant="success" type="submit" size="lg">Login</Button>
+                </Form.Group>
+            </Form>
+            <div style={{fontSize: 20, color: 'red'}}>{errorMessage}</div>
+        </Container>
+    )
 }
 
 export default Login

@@ -30,7 +30,8 @@ function Plan() {
       const token = localStorage.getItem('token')
       await axios.post('plan/createPlan', data, {
         headers: { Authorization: `Bearer ${token}` },
-      })
+      });
+      history.push("/");
     } catch (error) {
       console.log(error)
     }
@@ -86,7 +87,7 @@ function Plan() {
           onChange={(e) => setQuestionType(e.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" >
         Submit
       </Button>
     </Form>
