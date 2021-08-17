@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Switch, Route, HashRouter} from 'react-router-dom'
-import StartTest from './routes/StartTest'
+import __StartTest from './routes/__StartTest'
 import Home from './routes/Home'
 import Navigation from './components/Navigation'
 import Login from './routes/Login'
@@ -14,6 +14,7 @@ import Retest from "./routes/Retest";
 import CreateUser from "./routes/CreateUser";
 import AllUsers from "./routes/AllUsers";
 import WordList from "./routes/WordList";
+import WordTest from "./routes/WordTest";
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'))
@@ -28,7 +29,8 @@ function App() {
                 setAppUser={setUser}
             />
             <Switch>
-                <Route exact path="/startTest" component={StartTest}/>
+                {/*<Route exact path="/startTest" component={__StartTest}/>*/}
+                <Route exact path="/startTest" component={WordTest}/>
                 <Route exact path="/signin">
                     <Login setAppUser={setUser}/>
                 </Route>

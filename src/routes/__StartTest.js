@@ -4,7 +4,7 @@ import Question from '../components/Question'
 import {Form, Container, Button, Dropdown} from 'react-bootstrap'
 import {useHistory} from 'react-router-dom'
 
-function StartTest() {
+function __StartTest() {
     const history = useHistory()
 
     // init state
@@ -330,4 +330,4 @@ function StartTest() {
     )
 }
 
-export default StartTest
+export default __StartTest

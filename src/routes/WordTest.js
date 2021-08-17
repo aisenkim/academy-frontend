@@ -1,47 +1,45 @@
+// level , from , to , testType
+
 import {useHistory} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Button, Col, Container, Form, Table} from "react-bootstrap";
-import Question from "../components/Question";
+import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 
-function Retest(props) {
+function WordTest(props) {
     // init history
     const history = useHistory();
 
-    // get props from history (from Home.js)
-    const range = props.location.state.range;
-    const testType = props.location.state.testType;
+    // token from local storage
+    const token = localStorage.getItem('token');
 
-    // split range to get level, from, to
-    const splitRange = range.split('_');
-    const level = splitRange[0];
-    const from = splitRange[1];
-    const to = splitRange[2];
+    // get props from history
+    const {level, from, to, testType, questionType, retest} = props.location.state;
 
+    // determine which table to get questions from
+    let questionsOrSentence = testType === "word" ? "questions" : "sentence";
 
     // construct url
-    const url = 'retests/questions?range=' + range + '&testType=' + testType
+    const url = `${questionsOrSentence}?level=${level}&from=${from}&to=${to}&testType=${testType}`;
 
     // init states
-    const [questions, setQuestions] = useState([]);
-    const [myAnswers, setMyAnswers] = useState([]);
-    const [answers, setAnswers] = useState([]);
-    const [questionNum, setQuestionNum] = useState([]);
-    const [isMeaning, setIsMeaning] = useState([]);
+    const [questions, setQuestions] = useState([]) // set either english or Korean
+    const [myAnswers, setMyAnswers] = useState([]) // user's answers
+    const [answers, setAnswers] = useState([])
     const [isCorrect, setIsCorrect] = useState([]) // isCorrect ? true : false
+    const [questionNum, setQuestionNum] = useState([]) // Question number for each
+    const [isMeaning, setIsMeaning] = useState([]) // isMeaning ? true : false
     const [originalQuestion, setOriginalQuestion] = useState([])
     const [submitButton, setSubmitButton] = useState(true)
 
-    // get value from local storage
-    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        axios.get(url, {headers: {Authorization: `Bearer ${token}`}})
-            .then(result => {
-                // check if retest questions exist
-                if (result.data.length === 0) {
+        axios.get(url, {
+            headers: {Authorization: `Bearer ${token}`},
+        })
+            .then((result) => {
+                if (result.data.length === 0)
                     return;
-                }
+
                 setOriginalQuestion(result.data);
 
                 let localQuestions = []
@@ -49,23 +47,49 @@ function Retest(props) {
                 let localQuestionNum = []
                 let localIsMeaning = []
 
+                let isMeaning;
+
+                // assigning question and answer based on the question type
                 for (let [i, question] of result.data.entries()) {
-                    localQuestions[i] = question.question;
-                    localAnswers[i] = question.answer
+                    // need to swap [word and sentence] when question type is word
+                    if (questionType === "word") {
+                        isMeaning = false;
+                        localQuestions[i] = question.answer;
+                        localAnswers[i] = question.question;
+                    } else if (questionType === "meaning") {
+                        isMeaning = true;
+                        localQuestions[i] = question.question
+                        localAnswers[i] = question.answer
+                    } else {
+                        // randomly mix it
+                        isMeaning = !!Math.round(Math.random());
+                        if (!isMeaning) {
+                            localQuestions[i] = question.answer;
+                            localAnswers[i] = question.question;
+                        }
+                    }
                     localQuestionNum[i] = question.question_num
-                    localIsMeaning[i] = question.isMeaning
+                    localIsMeaning[i] = isMeaning
                 }
+
+                // mix the localAnswers -> word bank list words in different order
+                // TODO
+
+
                 setQuestions(localQuestions)
                 setAnswers(localAnswers)
                 setQuestionNum(localQuestionNum)
                 setIsMeaning(localIsMeaning)
+
             })
-    }, [])
+    }, []);
 
 
     const submitAnswers = async (event) => {
         event.preventDefault()
-        checkVocabAnswers();
+        checkVocabAnswers()
+
+        let range = `${level}_${from}_${to}`;
 
         let data = {
             testType,
@@ -75,17 +99,21 @@ function Retest(props) {
             answer: answers,
             myAnswers,
             isMeaning,
-            retest: true
+            retest
         }
-
-        setSubmitButton(false);
 
         await axios.post('response', data, {
             headers: {Authorization: `Bearer ${token}`},
         })
+        setSubmitButton(false);
     }
 
-    const checkVocabAnswers= () => {
+    /**
+     * TODO - Answer Check Algorithm
+     * Algorithm for checking if answer is correct
+     * Another answer check happens in the backend [in case altered by user]
+     */
+    const checkVocabAnswers = () => {
         let tmpIsCorrect = []
         for (let i in answers) {
             let correctAnswer = answers[i]
@@ -105,12 +133,11 @@ function Retest(props) {
 
     return (
         <Container className="mt-4" fluid>
-            <Col md={{span: 4, offset: 4}}>
-                <h1>Re-Test</h1>
-                <h3>Level: {level} </h3>
-                <h3>Range: {from} - {to}</h3>
-                <h3>Test Type: {testType}</h3>
-            </Col>
+            <Row>
+                <Col md={{span: 4, offset: 4}}>
+                    <h1>Level: {level} From: {from} To: {to}</h1>
+                </Col>
+            </Row>
             <Form onSubmit={submitAnswers}>
                 <Form.Group>
                     <Table striped bordered hover>
@@ -143,8 +170,8 @@ function Retest(props) {
                     </Table>
                 </Form.Group>
                 {submitButton ?
-                    <Button type="submit" color="primary" size="lg">
-                        Submit Re-Test
+                    <Button name="wordBtn" type="submit" color="primary" size="lg">
+                        Submit
                     </Button>
                     :
                     <Button
@@ -158,7 +185,9 @@ function Retest(props) {
                 }
             </Form>
         </Container>
-    );
+
+    )
+
 }
 
-export default Retest
+export default WordTest;

@@ -71,12 +71,19 @@ function Home(props) {
                         <tr key={idx}>
                             <td>{idx + 1}</td>
                             <td>{plan.testDate}</td>
-                            <td>{plan.range}</td>
+                            <td>{plan.level}_{plan.from}_{plan.to}</td>
                             <td>{plan.testType}</td>
                             <td>
                                 <button onClick={() => history.push({
-                                    pathname: '/retests',
-                                    state: {range: plan.range, testType: plan.testType}
+                                    pathname: '/startTest',
+                                    state: {
+                                        level: plan.level,
+                                        from: plan.from,
+                                        to: plan.to,
+                                        testType: plan.testType,
+                                        questionType: plan.questionType,
+                                        retest: false
+                                    }
                                 })}>Take Test
                                 </button>
                             </td>
@@ -112,7 +119,14 @@ function Home(props) {
                             <td>
                                 <button onClick={() => history.push({
                                     pathname: '/retests',
+                                    // pathname: '/startTest',
                                     state: {range: retest.range, testType: retest.testType}
+                                    // state: { level: retest.range.split("_")[0],
+                                    //     from: retest.range.split("_")[1],
+                                    //     to: retest.range.split("_")[2],
+                                    //     testType: retest.testType,
+                                    //     retest: true
+                                    // }
                                 })}>Take Retest
                                 </button>
                             </td>

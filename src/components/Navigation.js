@@ -41,17 +41,17 @@ function Navigation(props) {
             {/* <Nav.Link as={Link} to="/">
               Home
             </Nav.Link> */}
-            {roles === 'user' || roles === 'admin' ? (
-              <Nav.Link as={Link} to="/startTest">
-                Test
-              </Nav.Link>
-            ) : null}
+            {/*{roles === 'user' || roles === 'admin' ? (*/}
+            {/*  <Nav.Link as={Link} to="/startTest">*/}
+            {/*    Test*/}
+            {/*  </Nav.Link>*/}
+            {/*) : null}*/}
             {roles === 'admin' && props.appUser !== '' ? (
               <Nav.Link as={Link} to="/createPlan">
                 Create Plan
               </Nav.Link>
             ) : null}
-            {roles === 'user' || roles === 'admin' ? (
+            {roles === 'user' && roles === 'admin' ? (
               <Nav.Link as={Link} to="/createTest">
                 Create Test
               </Nav.Link>
