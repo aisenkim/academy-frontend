@@ -56,23 +56,8 @@ function StartTest() {
                     setShowSubmitButtonVocab(false)
                     return
                 }
-                console.log(result.data);
                 setOriginalQuestion(result.data)
-                let localQuestions = []
-                let localAnswers = []
-                let localQuestionNum = []
-                let localIsMeanig = []
-
-                for (let [i, question] of result.data.entries()) {
-                    localQuestions[i] = question.question
-                    localAnswers[i] = question.answer
-                    localQuestionNum[i] = question.question_num
-                    localIsMeanig[i] = question.isMeaning
-                }
-                setQuestions(localQuestions)
-                setAnswers(localAnswers)
-                setQuestionNum(localQuestionNum)
-                setIsMeaning(localIsMeanig)
+                assignStates(result.data, "word")
             })
 
         // request to get today's sentence questions
@@ -87,23 +72,41 @@ function StartTest() {
                     return
                 }
                 setOriginalQuestionSentence(result.data)
-                let localQuestions = []
-                let localAnswers = []
-                let localQuestionNum = []
-                let localIsMeanig = []
-
-                for (let [i, question] of result.data.entries()) {
-                    localQuestions[i] = question.question
-                    localAnswers[i] = question.answer
-                    localQuestionNum[i] = question.question_num
-                    localIsMeanig[i] = question.isMeaning
-                }
-                setQuestionsSentence(localQuestions)
-                setAnswersSentence(localAnswers)
-                setQuestionNumSentence(localQuestionNum)
-                setIsMeaningSentence(localIsMeanig)
+                assignStates(result.data, "sentence");
             })
     }, [])
+
+    /**
+     * Helper function to reduce redundancy in question and sentence
+     */
+    const assignStates = ((data, testType) => {
+        let localQuestions = []
+        let localAnswers = []
+        let localQuestionNum = []
+        let localIsMeanig = []
+
+        for (let [i, question] of data.entries()) {
+            localQuestions[i] = question.question
+            localAnswers[i] = question.answer
+            localQuestionNum[i] = question.question_num
+            localIsMeanig[i] = question.isMeaning
+        }
+
+        // mix the localAnswers -> word bank list words in different order
+        // TODO
+
+        if(testType === "sentence") {
+            setQuestionsSentence(localQuestions)
+            setAnswersSentence(localAnswers)
+            setQuestionNumSentence(localQuestionNum)
+            setIsMeaningSentence(localIsMeanig)
+        } else {
+            setQuestions(localQuestions)
+            setAnswers(localAnswers)
+            setQuestionNum(localQuestionNum)
+            setIsMeaning(localIsMeanig)
+        }
+    })
 
     const submitVocabAnswers = async (event) => {
         event.preventDefault()
@@ -126,7 +129,7 @@ function StartTest() {
             isMeaning,
             retest: false
         }
-        // let data = { answers: myAnswers, level: userLevel, dateTime };
+
         await axios.post('response', data, {
             headers: {Authorization: `Bearer ${token}`},
         })

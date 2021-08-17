@@ -7,8 +7,8 @@ import {useHistory} from "react-router-dom";
 function Home(props) {
     const history = useHistory();
     const [retests, setRetests] = useState([]);
+    const [tests, setTests] = useState([]);
 
-    const userLevel = localStorage.getItem('level')
     const token = localStorage.getItem('token')
 
     // GET today's date
@@ -26,6 +26,12 @@ function Home(props) {
                         headers: {Authorization: `Bearer ${token}`},
                     })
                     setRetests(retest.data);
+
+                    // grab plan that belongs to the user
+                    const plans = await axios.get('plan', {
+                        headers: {Authorization: `Bearer ${token}`},
+                    })
+                    setTests(plans.data);
                 }
             } catch (err) {
                 setRetests([]);
@@ -43,6 +49,43 @@ function Home(props) {
                     <h1>Welcome {props.appUser}!</h1>
                 </Col>
             </Row>
+            <Row>
+                <Col md={{span: 2, offset: 0}}>
+                    <h3>My Tests</h3>
+                </Col>
+            </Row>
+            {/*Table for Tests (plans)*/}
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Test Date</th>
+                    <th>Test Range</th>
+                    <th>Test Type</th>
+                    <th>Start Test</th>
+                </tr>
+                </thead>
+                <tbody>
+                {tests.map((plan, idx) => {
+                    return !plan ? null : (
+                        <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td>{plan.testDate}</td>
+                            <td>{plan.range}</td>
+                            <td>{plan.testType}</td>
+                            <td>
+                                <button onClick={() => history.push({
+                                    pathname: '/retests',
+                                    state: {range: plan.range, testType: plan.testType}
+                                })}>Take Test
+                                </button>
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </Table>
+            {/* Table for Retests*/}
             <Row>
                 <Col md={{span: 2, offset: 0}}>
                     <h3>My Retests</h3>
