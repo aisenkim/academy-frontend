@@ -116,10 +116,21 @@ function WordTest(props) {
     const checkVocabAnswers = () => {
         let tmpIsCorrect = []
         for (let i in answers) {
-            let correctAnswer = answers[i]
-            let myAnswer = myAnswers[i]
+            let correctAnswers = answers[i]
+                .toUpperCase()
+                .replace(/\s/g, "")
+                .split(",");
+            let myAnswer = myAnswers[i].toUpperCase().replace(/\s/g, "");
 
-            tmpIsCorrect[i] = correctAnswer === myAnswer ? 'correct' : 'wrong'
+            for (let answer of correctAnswers) {
+                if (answer === myAnswer) {
+                    tmpIsCorrect[i] = 'correct';
+                    break;
+                } else {
+                    tmpIsCorrect[i] = 'wrong';
+                }
+            }
+            // tmpIsCorrect[i] = correctAnswers === myAnswer ? 'correct' : 'wrong'
         }
         setIsCorrect(tmpIsCorrect)
         // https://en.wikipedia.org/wiki/Levenshtein_distance

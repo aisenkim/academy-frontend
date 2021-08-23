@@ -1,0 +1,15 @@
+export const contactUs= {
+    primary: false,
+    lightBg: true,
+    imgStart: '',
+    lightTopLine: false,
+    lightTextDesc: false,
+    buttonLabel: 'Call Us',
+    description:`Phone: 053-710-79059`,
+    headline: 'Please contact us during our business hours.',
+    lightText: false,
+    topLine: 'EiE Susung Campus',
+    img: require('../../images/test.svg').default,
+    alt: 'Image',
+    start: 'true',
+}

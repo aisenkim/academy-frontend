@@ -176,8 +176,8 @@ function __StartTest() {
     const checkVocabAnswers = () => {
         let tmpIsCorrect = []
         for (let i in answers) {
-            let correctAnswer = answers[i]
-            let myAnswer = myAnswers[i]
+            let correctAnswer = answers[i].toUpperCase()
+            let myAnswer = myAnswers[i].toUpperCase()
 
             tmpIsCorrect[i] = correctAnswer === myAnswer ? 'correct' : 'wrong'
         }
@@ -188,8 +188,8 @@ function __StartTest() {
     const checkSentenceAnswers = () => {
         let tmpIsCorrect = []
         for (let i in answersSentence) {
-            let correctAnswer = answersSentence[i]
-            let myAnswer = myAnswersSentence[i]
+            let correctAnswer = answersSentence[i].toUpperCase()
+            let myAnswer = myAnswersSentence[i].toUpperCase()
 
             tmpIsCorrect[i] = correctAnswer === myAnswer ? 'correct' : 'wrong'
         }

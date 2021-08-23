@@ -8,7 +8,7 @@ function Retest(props) {
     // init history
     const history = useHistory();
 
-    // get props from history (from Home.js)
+    // get props from history (from Test.js)
     const range = props.location.state.range;
     const testType = props.location.state.testType;
 

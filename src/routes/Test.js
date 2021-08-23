@@ -4,7 +4,7 @@ import {Container, Row, Col} from 'react-bootstrap'
 import {Table} from 'react-bootstrap'
 import {useHistory} from "react-router-dom";
 
-function Home(props) {
+function Test(props) {
     const history = useHistory();
     const [retests, setRetests] = useState([]);
     const [tests, setTests] = useState([]);
@@ -44,11 +44,6 @@ function Home(props) {
 
     return (
         <Container className="mt-4" fluid>
-            <Row>
-                <Col md={{span: 4, offset: 4}}>
-                    <h1>Welcome {props.appUser}!</h1>
-                </Col>
-            </Row>
             <Row>
                 <Col md={{span: 2, offset: 0}}>
                     <h3>My Tests</h3>
@@ -139,4 +134,4 @@ function Home(props) {
     )
 }
 
-export default Home
+export default Test

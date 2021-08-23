@@ -39,7 +39,7 @@ function Navigation(props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             {/* <Nav.Link as={Link} to="/">
-              Home
+              Test
             </Nav.Link> */}
             {/*{roles === 'user' || roles === 'admin' ? (*/}
             {/*  <Nav.Link as={Link} to="/startTest">*/}

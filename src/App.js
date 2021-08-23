@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import {Switch, Route, HashRouter} from 'react-router-dom'
-import __StartTest from './routes/__StartTest'
-import Home from './routes/Home'
-import Navigation from './components/Navigation'
+import Test from './routes/Test'
 import Login from './routes/Login'
 import Plan from './routes/Plan'
 import UserScore from './routes/UserScore'
@@ -15,6 +13,10 @@ import CreateUser from "./routes/CreateUser";
 import AllUsers from "./routes/AllUsers";
 import WordList from "./routes/WordList";
 import WordTest from "./routes/WordTest";
+import GlobalStyle from "./globalStyles";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./components/HomePage/Home";
+import Contact from "./components/Contact/Contact";
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'))
@@ -22,15 +24,23 @@ function App() {
 
     return (
         <HashRouter>
-            <Navigation
+            <GlobalStyle />
+            <Navbar
                 appToken={token}
                 setAppToken={setToken}
                 appUser={user}
                 setAppUser={setUser}
             />
+            {/*<Navigation*/}
+            {/*    appToken={token}*/}
+            {/*    setAppToken={setToken}*/}
+            {/*    appUser={user}*/}
+            {/*    setAppUser={setUser}*/}
+            {/*/>*/}
             <Switch>
                 {/*<Route exact path="/startTest" component={__StartTest}/>*/}
                 <Route exact path="/startTest" component={WordTest}/>
+                <Route exact path="/contact" component={Contact}/>
                 <Route exact path="/signin">
                     <Login setAppUser={setUser}/>
                 </Route>
@@ -52,6 +62,12 @@ function App() {
                 <ProtectedRoute
                     path="/retests"
                     component={Retest}
+                    setAppToken={setToken}
+                    setAppUser={setUser}
+                />
+                <ProtectedRoute
+                    path="/tests"
+                    component={Test}
                     setAppToken={setToken}
                     setAppUser={setUser}
                 />
@@ -101,9 +117,17 @@ function App() {
                     appUser={user}
                 />
                 {/* <Route exact path="/createPlan" component={Plan} /> */}
-                <Route path="/" exact={true}>
-                    <Home appUser={user} setAppToken={setToken} setAppUser={setUser}/>
-                </Route>
+                {/*<Route path="/" exact={true}>*/}
+                {/*    <Test appUser={user} setAppToken={setToken} setAppUser={setUser}/>*/}
+                {/*</Route>*/}
+                <Route
+                    exact
+                    path="/"
+                    component={Home}
+                    setAppToken={setToken}
+                    setAppUser={setUser}
+                    appUser={user}
+                />
             </Switch>
         </HashRouter>
     )
