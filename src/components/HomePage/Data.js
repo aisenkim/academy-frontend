@@ -10,7 +10,7 @@ export const homeObjOne = {
     headline: 'Lean English the Fun Way',
     lightText: true,
     topLine: 'EiE Susung Campus (수성)',
-    img: require('../../images/test.svg').default,
+    img: require('../../images/classroom.jpeg').default,
     alt: 'Image',
     start: 'true',
 }
@@ -26,7 +26,7 @@ export const homeObjTwo = {
     headline: 'Specialized Instructors For Elementary and Middle School Students',
     lightText: false,
     topLine: 'EiE Manchon Campus (만촌)',
-    img: require('../../images/svg-1.svg').default,
+    img: require('../../images/eie_ad.jpeg').default,
     alt: 'Image',
     start: '',
 }

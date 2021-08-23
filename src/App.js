@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Switch, Route, HashRouter} from 'react-router-dom'
 import Test from './routes/Test'
 import Login from './routes/Login'
@@ -21,6 +21,11 @@ import Contact from "./components/Contact/Contact";
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'))
     const [user, setUser] = useState(localStorage.getItem('name'))
+
+    useEffect(() => {
+        document.title = "EiE Academy"
+    }, []);
+
 
     return (
         <HashRouter>
