@@ -35,13 +35,22 @@
 
 
 ## Screenshots
-`home page (desktop view)`![Example screenshot](./public/readme_screenshots/sc_1.png)
-`home page (mobile view)`![Example screenshot](./public/readme_screenshots/sc_2.png)
-`nav bar (mobile view)`![Example screenshot](./public/readme_screenshots/sc_3.png)
-`exam page walk through` <img src='http://g.recordit.co/J45oGi5fXy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-`word list page walk through` <img src='http://g.recordit.co/IgX3OxiHlh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-`search by username, name, or level` <img src='http://g.recordit.co/f6mCefdoez.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-`view student's answers and able to edit(correct / wrong)` <img src='http://g.recordit.co/jtcePmHtF2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![Example screenshot](./public/readme_screenshots/sc_1.png)
+<figcaption><b>home page (desktop view)</b></figcaption></br>
+
+![Example screenshot](./public/readme_screenshots/sc_2.png)
+<figcaption><b>home page (mobile view)</b></figcaption></br>
+
+![Example screenshot](./public/readme_screenshots/sc_3.png)
+<figcaption><b>nav bar (mobile view)</b></figcaption></br>
+<img src='http://g.recordit.co/J45oGi5fXy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<figcaption><b>exam page walk through</b></figcaption></br>
+<img src='http://g.recordit.co/IgX3OxiHlh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<figcaption><b>word list page walk through</b></figcaption></br>
+<img src='http://g.recordit.co/f6mCefdoez.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<figcaption><b>search by username, name, or level</b></figcaption></br>
+<img src='http://g.recordit.co/jtcePmHtF2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough'/>
+<figcaption><b>view student's answers and able to edit(correct / wrong)</b></figcaption>
 
 ## Setup
 #### local machine setup
