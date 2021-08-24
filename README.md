@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# Academy App 
+> This is an app created during the pandemic to help elementary school students at an english academy called EIE to take exams online.
+> Live demo [_here_](https://aisenkim.github.io/academy-frontend/#/) (**Check Setup section for username**). <!-- If you have the project hosted somewhere, include the link here. -->
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
+* [Project Status](#project-status)
+* [Room for Improvement](#room-for-improvement)
+* [Contact](#contact)
+<!-- * [License](#license) -->
 
-## Available Scripts
 
-In the project directory, you can run:
+## General Information
+- During the pandemic, students at the english academy weren't able to take in-person vocab tests and was difficult for teachers at the academy to keep track of student's progress. 
+- Created an app for the academy called EiE Susung Campus which had 80 students.
+- Students were able to easily access vocabulary list from the website to study and take exams without having to come to the academy.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Technologies Used
+- React JS - version 17.0
+- Bootstrap - version 5 
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
+- View wordlist from anywhere anytime from a mobile phone 
+- Students able to take exams / retests (if failed) at home 
+- Teachers able to keep track of student's progress 
+- Teachers able to create plans, check answers (able to mark correct or incorrect after reviewing), create word lists for different levels, register new users, and more!
+- Able to search student's records by username, name, or level
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Screenshots
+`home page (desktop view)`![Example screenshot](./public/readme_screenshots/sc_1.png)
+`home page (mobile view)`![Example screenshot](./public/readme_screenshots/sc_2.png)
+`nav bar (mobile view)`![Example screenshot](./public/readme_screenshots/sc_3.png)
+`exam page walk through` <img src='http://g.recordit.co/J45oGi5fXy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+`word list page walk through` <img src='http://g.recordit.co/IgX3OxiHlh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+`search by username, name, or level` <img src='http://g.recordit.co/f6mCefdoez.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+`view student's answers and able to edit(correct / wrong)` <img src='http://g.recordit.co/jtcePmHtF2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup
+#### local machine setup
+1. `npm install`
+2. `npm start`
+3. Clone backend from [here](https://github.com/aisenkim/academy-refactor)
+</br>
+#### hosted site testing
+🔑 username - manager </br>
+🔑 password - eiesusung2020!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+[comment]: <> (## Usage)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[comment]: <> (How does one go about using it?)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[comment]: <> (Provide various use cases and code examples here.)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+[comment]: <> (`write-your-code-here`)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Project Status
+Project is: _in progress_  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Room for Improvement
+Still need to improve UI and add more features
 
-### Code Splitting
+Room for improvement:
+- Improve algorithm for checking answers
+- Apply tests using jest
+- Provide word bank 
+- Add games for students to learn vocabs faster in a fun way
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Contact
+Created by [@aisenkim](https://www.linkedin.com/in/aisenkim/) - feel free to contact me!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+<!-- Optional -->
+<!-- ## License -->
+<!-- This project is open source and available under the [... License](). -->
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<!-- You don't have to include all sections - just the one's relevant to your project -->
