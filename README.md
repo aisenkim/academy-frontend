@@ -60,6 +60,7 @@
 1. `npm install`
 2. `npm start`
 3. Clone backend from [here](https://github.com/aisenkim/academy-refactor)
+4. 🔑 username - manager </br> 🔑 password - manager
 </br>
 #### hosted site testing
 🔑 username - manager </br>
